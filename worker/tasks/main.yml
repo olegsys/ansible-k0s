@@ -1,0 +1,17 @@
+- name: Create worker token file
+  template:
+    src: worker-token.j2
+    dest: "/etc/k0s/worker-token"    
+    mode: 0600
+
+- name: Install worker nodes
+  command: k0s install worker --token-file /etc/k0s/worker-token
+
+- name: Enable k0s service
+  become: true
+  systemd:
+    name: k0sworker
+    daemon_reload: yes
+    state: started
+    enabled: yes
+  

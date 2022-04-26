@@ -1,0 +1,12 @@
+- hosts: all
+  roles:
+    - role: download
+    - role: prepare
+
+- hosts: init-controller
+  roles:
+    - role: init-controller
+
+- hosts: worker
+  roles:
+    - role: worker

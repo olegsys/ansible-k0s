@@ -1,0 +1,18 @@
+- name: Create download directory
+  file:
+    path: /tmp/ansible_k0s/
+    state: directory
+
+- name: Download K0S with check (sha256)
+  get_url:
+    url: "{{ k0s_download_url }}"
+    dest: /tmp/ansible_k0s/
+    checksum: sha256:"{{ k0s_binary_checksum }}"    
+
+- name: Copy K0S to bin directory
+  copy:
+    src: /tmp/ansible_k0s/{{ k0s_binary_name }}
+    dest: /usr/local/bin/k0s
+    mode: 0755
+    remote_src: yes
+  become: true

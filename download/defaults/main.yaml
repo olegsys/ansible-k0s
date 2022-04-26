@@ -1,0 +1,10 @@
+---
+k0s_version: v1.23.5
+k0s_arch: amd64
+k0s_checksums:
+  k0s-v1.23.5+k0s.0-amd64: 7632cd8dd054d8846c86745ef9d3873a2cf0aaa6547c3d6611e1c54110a70c23
+
+k0s_binary_name: k0s-{{ k0s_version }}+k0s.0-{{ k0s_arch }}
+k0s_binary_checksum: "{{ k0s_checksums[k0s_binary_name] }}"
+
+k0s_download_url: https://github.com/k0sproject/k0s/releases/download/{{ k0s_version }}%2Bk0s.0/{{ k0s_binary_name }}

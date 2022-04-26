@@ -1,0 +1,3 @@
+clusterName: k0s
+podCIDR: 10.244.0.0/16
+serviceCIDR: 10.96.0.0/12

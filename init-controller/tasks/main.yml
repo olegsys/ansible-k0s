@@ -1,0 +1,34 @@
+- name: Create init controller config
+  template:
+    src: k0s-config.j2
+    dest: /etc/k0s/k0s.yaml
+
+- name: Install init controller
+  command: k0s install controller --config /etc/k0s/k0s.yaml
+
+- name: Enable k0s service
+  systemd:
+    name: k0scontroller
+    daemon_reload: yes
+    state: started
+    enabled: yes
+
+- name: Wait for k8s apiserver
+  wait_for:
+    host: localhost
+    port: 6443
+    delay: 15
+    timeout: 180
+
+- name: Create worker join token
+  register: worker_join_token
+  command: k0s token create --role=worker
+
+- name: Save worker join token
+  set_fact:
+    join_token_worker: "{{ worker_join_token.stdout }}"
+    cacheable: yes
+
+- name: Print worker token
+  debug:
+    msg: "k0s worker join token is: {{ worker_join_token.stdout }}"
